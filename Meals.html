@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم الأصالة - قائمة الوجبات</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        .detail-toggle-btn {
+            background: #555; color: #fff; border: none;
+            padding: 6px 14px; border-radius: 6px; cursor: pointer;
+            font-size: 0.85rem; transition: background 0.2s;
+        }
+        .detail-toggle-btn:hover { background: #222; }
+        .order-section {
+            display: none;
+            margin-top: 30px;
+            border-top: 3px solid var(--primary);
+            padding-top: 30px;
+        }
+        .form-section-title {
+            font-size: 1.4rem; font-weight: bold;
+            color: var(--primary); margin-bottom: 20px;
+            text-align: center;
+        }
+        .selected-meals-table { margin-bottom: 20px; }
+        .total-bar {
+            background: #fff5f5; border: 2px solid var(--primary);
+            border-radius: var(--radius); padding: 15px 20px;
+            margin-bottom: 20px; text-align: center;
+        }
+        .input-hint { font-size: 0.8rem; color: var(--text-light); margin-top: 3px; }
+        .page-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #fff; padding: 40px 20px; text-align: center;
+        }
+        .page-header h1 { color: #fff; font-size: 2rem; }
+        .meals-container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">🍽️ مطعم <span>الأصالة</span></a>
+        <ul class="navbar-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="AboutUs.html">من نحن</a></li>
+            <li><a href="Meals.html" class="active">الوجبات</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1>🍽️ قائمة الوجبات</h1>
+    <p style="opacity:0.85; margin-top:8px;">اختر ما يشتهيه قلبك من ألذ الوجبات</p>
+</div>
+
+<!-- Meals Table -->
+<div class="meals-container">
+    <div class="card">
+        <table id="mealsTable">
+            <thead>
+                <tr>
+                    <th>الرمز</th>
+                    <th>الوجبة</th>
+                    <th>السعر (ل.س)</th>
+                    <th>إظهار التفاصيل</th>
+                    <th>اختيار</th>
+                </tr>
+            </thead>
+            <tbody id="mealsBody">
+                <!-- يتم توليد الصفوف بواسطة JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- زر المتابعة -->
+    <div style="text-align:center; margin: 25px 0;">
+        <button class="btn btn-primary" onclick="showOrderForm()" style="font-size:1.1rem; padding:14px 40px;">
+            متابعة ← 🛒
+        </button>
+    </div>
+
+    <!-- نموذج الطلب (يظهر بعد الضغط على متابعة) -->
+    <div id="order-form-section" class="card order-section">
+        <div class="form-section-title">📋 نموذج تأكيد الطلب</div>
+
+        <!-- قائمة الوجبات المحددة -->
+        <h3 style="margin-bottom:10px; color: var(--secondary);">الوجبات المختارة:</h3>
+        <table class="selected-meals-table">
+            <thead><tr><th>الرمز</th><th>الوجبة</th><th>السعر</th></tr></thead>
+            <tbody id="selected-meals-list"></tbody>
+        </table>
+
+        <!-- بيانات الطلب -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fullName">الاسم الكامل (إنجليزي) <span style="color:#999;">(اختياري)</span></label>
+                <input type="text" id="fullName" placeholder="First Last" oninput="validateName(this)">
+                <div class="input-hint">أحرف هجائية إنجليزية فقط مع فراغ واحد بين الاسم والكنية</div>
+                <div class="error-msg" id="nameError"></div>
+            </div>
+            <div class="form-group">
+                <label for="bankAccount">رقم الحساب المصرفي <span style="color:var(--primary);">*</span></label>
+                <input type="text" id="bankAccount" placeholder="مثال: 055555" maxlength="6" oninput="validateBank(this)">
+                <div class="input-hint">6 أرقام فقط، يمكن أن يبدأ بصفر</div>
+                <div class="error-msg" id="bankError"></div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="orderDate">تاريخ الطلب <span style="color:#999;">(اختياري)</span></label>
+                <input type="text" id="orderDate" placeholder="مثال: 23-04-2026" oninput="validateDate(this)">
+                <div class="input-hint">بصيغة dd-mm-yyyy</div>
+                <div class="error-msg" id="dateError"></div>
+            </div>
+            <div class="form-group">
+                <label for="mobile">رقم الموبايل <span style="color:#999;">(اختياري)</span></label>
+                <input type="tel" id="mobile" placeholder="مثال: 0991234567" maxlength="10" oninput="validateMobile(this)">
+                <div class="input-hint">Syriatel: 099 | MTN: 098 أو 094</div>
+                <div class="error-msg" id="mobileError"></div>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:10px;">
+            <button class="btn btn-primary" onclick="submitOrder()" style="padding:12px 40px; font-size:1.05rem;">
+                ✅ إرسال الطلب
+            </button>
+            <button class="btn btn-secondary" onclick="$('#order-form-section').slideUp()" style="margin-right:10px; padding:12px 25px;">
+                ✕ إلغاء
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- شريط الملخص السفلي -->
+<div class="summary-bar">
+    <span id="selected-count">0 وجبة محددة</span>
+    <button class="btn btn-accent" onclick="showOrderForm()">متابعة للطلب ←</button>
+</div>
+
+<!-- Modal نتيجة الطلب -->
+<div class="modal-overlay" id="result-modal">
+    <div class="modal-box">
+        <h2>🎉 تأكيد الطلب</h2>
+        <div id="order-summary"></div>
+        <div style="text-align:center; margin-top:20px;">
+            <button class="btn btn-primary" onclick="closeModal()">حسناً ✓</button>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="myFunctions.js"></script>
+<script>
+// ===== توليد جدول الوجبات =====
+$(document).ready(function() {
+    var tbody = $("#mealsBody");
+
+    mealsData.forEach(function(meal) {
+        // صف الوجبة الرئيسي
+        var mealRow = $("<tr>").attr("id", "meal-" + meal.code);
+        mealRow.append($("<td>").text(meal.code));
+        mealRow.append($("<td>").css("text-align", "right").text(meal.name));
+        mealRow.append($("<td>").text(formatPrice(meal.price)));
+
+        // زر التفاصيل
+        var detailBtn = $("<button>").addClass("detail-toggle-btn").attr("id", "btn-" + meal.code)
+            .text("تفاصيل").on("click", function() { toggleDetails(meal.code); });
+        mealRow.append($("<td>").append(detailBtn));
+
+        // صندوق الاختيار
+        var checkbox = $("<input>").attr("type", "checkbox").attr("name", "meal").attr("value", meal.code)
+            .on("change", updateSelectedCount);
+        mealRow.append($("<td>").append(checkbox));
+
+        tbody.append(mealRow);
+
+        // صف التفاصيل (مخفي)
+        var detailRow = $("<tr>").addClass("detail-row").attr("id", "detail-" + meal.code).hide();
+        var ingredientsList = "<ul style='margin:5px 0 10px 0; padding-right:20px;'>" +
+            meal.ingredients.map(function(i){ return "<li>" + i + "</li>"; }).join("") + "</ul>";
+        var sauceList = "<ul style='margin:5px 0 0 0; padding-right:20px;'>" +
+            meal.sauce.map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul>";
+
+        var detailHTML =
+            "<div class='detail-content'>" +
+            "<img src='" + meal.image + "' alt='" + meal.name + "' onerror=\"this.src='https://via.placeholder.com/180x140?text=Food'\">" +
+            "<div class='detail-info'>" +
+            "<h4>🍽️ " + meal.name + "</h4>" +
+            "<p><strong>المطبخ:</strong> " + meal.kitchen + "</p>" +
+            "<p><strong>تصنيف الطعام:</strong> " + meal.category + "</p>" +
+            "<p><strong>المكونات:</strong></p>" + ingredientsList +
+            "<p><strong>الصلصة:</strong></p>" + sauceList +
+            "</div></div>";
+
+        detailRow.append($("<td>").attr("colspan", "5").html(detailHTML));
+        tbody.append(detailRow);
+    });
+});
+
+// ===== وظائف التحقق الفوري =====
+function validateName(el) {
+    var v = el.value.trim();
+    if (v === "") { hideError("nameError"); $(el).removeClass("valid invalid"); return; }
+    if (/^[A-Za-z]+ [A-Za-z]+$/.test(v)) {
+        hideError("nameError"); $(el).addClass("valid").removeClass("invalid");
+    } else {
+        showError("nameError", "أحرف إنجليزية فقط مع فراغ واحد");
+        $(el).addClass("invalid").removeClass("valid");
+    }
+}
+
+function validateBank(el) {
+    var v = el.value.trim();
+    if (v === "") { showError("bankError", "رقم الحساب واجب"); $(el).addClass("invalid").removeClass("valid"); return; }
+    if (/^\d{6}$/.test(v)) {
+        hideError("bankError"); $(el).addClass("valid").removeClass("invalid");
+    } else {
+        showError("bankError", "6 أرقام بالضبط");
+        $(el).addClass("invalid").removeClass("valid");
+    }
+}
+
+function validateDate(el) {
+    var v = el.value;
+    if (v === "") { hideError("dateError"); $(el).removeClass("valid invalid"); return; }
+    if (/^\d{2}-\d{2}-\d{4}$/.test(v)) {
+        hideError("dateError"); $(el).addClass("valid").removeClass("invalid");
+    } else {
+        showError("dateError", "صيغة التاريخ يجب أن تكون dd-mm-yyyy");
+        $(el).addClass("invalid").removeClass("valid");
+    }
+}
+
+function validateMobile(el) {
+    var v = el.value.trim();
+    if (v === "") { hideError("mobileError"); $(el).removeClass("valid invalid"); return; }
+    if (/^(099|098|094)\d{7}$/.test(v)) {
+        hideError("mobileError"); $(el).addClass("valid").removeClass("invalid");
+    } else {
+        showError("mobileError", "رقم غير صحيح (Syriatel:099 / MTN:098 أو 094)");
+        $(el).addClass("invalid").removeClass("valid");
+    }
+}
+</script>
+
+<footer class="footer">
+    <p>© 2026 مطعم الأصالة - جميع الحقوق محفوظة | تصميم فريق IWB201 S25</p>
+    <p style="margin-top: 8px;"><a href="index.html">الرئيسية</a> | <a href="AboutUs.html">من نحن</a> | <a href="Meals.html">الوجبات</a></p>
+</footer>
+
+</body>
+</html>

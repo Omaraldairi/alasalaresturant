@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم الأصالة - من نحن</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .about-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
+        }
+        .about-card h3 { color: var(--primary); margin-bottom: 15px; }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .contact-icon { font-size: 1.5rem; width: 40px; text-align: center; }
+        @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">🍽️ مطعم <span>الأصالة</span></a>
+        <ul class="navbar-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="AboutUs.html" class="active">من نحن</a></li>
+            <li><a href="Meals.html">الوجبات</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 style="color: var(--primary); text-align: center; margin-bottom: 10px;">من نحن</h1>
+    <p style="text-align: center; color: var(--text-light); font-size: 1.1rem;">تعرّف على قصتنا وكيف نخدمك</p>
+
+    <div class="about-grid">
+
+        <!-- معلومات المطعم -->
+        <div class="about-card">
+            <h3>🏪 قصة المطعم</h3>
+            <p style="line-height: 1.9;">تأسس مطعم <strong>الأصالة</strong> عام 2010 بهدف تقديم أشهى المأكولات الشامية والعربية الأصيلة في أجواء دافئة ومريحة. انطلقنا من وصفات موروثة عبر الأجيال، واليوم نحن نخدم أكثر من 500 زبون يومياً.</p>
+            <br>
+            <p style="line-height: 1.9;">نؤمن بأن الطعام الجيد هو أكثر من مجرد وجبة — هو تجربة، ذكرى، وجزء من هويتنا الثقافية. لهذا نصرّ على استخدام المكونات الطازجة والوصفات الأصيلة في كل طبق نقدمه.</p>
+        </div>
+
+        <!-- قيمنا -->
+        <div class="about-card">
+            <h3>⭐ قيمنا ومبادئنا</h3>
+            <ul style="list-style: none; line-height: 2.2;">
+                <li>🌿 <strong>الجودة أولاً:</strong> مكونات طازجة معتمدة</li>
+                <li>😊 <strong>خدمة متميزة:</strong> رضاك هو هدفنا</li>
+                <li>🍳 <strong>وصفات أصيلة:</strong> تراث طهوي عريق</li>
+                <li>🌱 <strong>الاستدامة:</strong> نعتني بالبيئة</li>
+                <li>🤝 <strong>الأمانة:</strong> شفافية تامة مع زبائننا</li>
+            </ul>
+        </div>
+
+        <!-- ساعات العمل -->
+        <div class="about-card">
+            <h3>🕐 ساعات العمل</h3>
+            <div class="contact-item">
+                <span class="contact-icon">📅</span>
+                <div><strong>الاثنين – الجمعة</strong><br>10:00 صباحاً – 11:00 مساءً</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📅</span>
+                <div><strong>السبت – الأحد</strong><br>9:00 صباحاً – 12:00 منتصف الليل</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">🚗</span>
+                <div><strong>خدمة التوصيل</strong><br>يومياً من 11:00 ص حتى 10:00 م</div>
+            </div>
+        </div>
+
+        <!-- معلومات التواصل -->
+        <div class="about-card">
+            <h3>📞 تواصل معنا</h3>
+            <div class="contact-item">
+                <span class="contact-icon">📍</span>
+                <div><strong>العنوان</strong><br>شارع الحمرا، دمشق، سوريا</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📞</span>
+                <div><strong>هاتف</strong><br>+963 11 222 3344</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📱</span>
+                <div><strong>موبايل / واتساب</strong><br>+963 999 123 456</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">✉️</span>
+                <div><strong>البريد الإلكتروني</strong><br>info@asala-restaurant.com</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">🌐</span>
+                <div><strong>الموقع الإلكتروني</strong><br>www.asala-restaurant.com</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2026 مطعم الأصالة - جميع الحقوق محفوظة | تصميم فريق IWB201 S25</p>
+    <p style="margin-top: 8px;"><a href="index.html">الرئيسية</a> | <a href="AboutUs.html">من نحن</a> | <a href="Meals.html">الوجبات</a></p>
+</footer>
+
+</body>
+</html>
