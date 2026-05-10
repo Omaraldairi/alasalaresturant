@@ -159,8 +159,10 @@
 <script src="myFunctions.js"></script>
 <script>
 // ===== توليد جدول الوجبات =====
-$(document).ready(function() {
+function buildMealsTable() {
     var tbody = $("#mealsBody");
+    if (tbody.length === 0) return;
+    tbody.empty();
 
     mealsData.forEach(function(meal) {
         // صف الوجبة الرئيسي
@@ -202,6 +204,11 @@ $(document).ready(function() {
         detailRow.append($("<td>").attr("colspan", "5").html(detailHTML));
         tbody.append(detailRow);
     });
+}
+
+// تشغيل فوري عند تحميل الصفحة
+$(document).ready(function() {
+    buildMealsTable();
 });
 
 // ===== وظائف التحقق الفوري =====
